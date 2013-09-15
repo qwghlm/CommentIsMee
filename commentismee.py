@@ -49,7 +49,8 @@ class CIFArticle:
             print "Error %s encountered when logging to the URL %s" % (r.status_code, url)
             return None
 
-        return BeautifulSoup(r.text, "html5lib")
+        soup = BeautifulSoup(r.text, "html5lib")
+        return soup
 
     def measure_ego(self):
 
@@ -75,6 +76,11 @@ class CIFArticle:
         title_tag = soup.find("title")
         title_text = title_tag and title_tag.get_text().split("|")[0].strip() or "Unknown Title"
 
+        # Check to see if CIF, either from URL or if the section is labelled as such in the metadata
+        section_tag = soup.find("meta", property="article:section")
+        section = section_tag and section_tag['content'] or "Unknown Section"
+        is_cif = self.url.find('commentisfree') > -1 or section.lower() == "comment is free"
+
         # Cleanup whitespace and convert all to spaces
         text = div.get_text(" ", strip=True) or ""
         text = re.sub("\s+", " ", text)
@@ -89,6 +95,7 @@ class CIFArticle:
         meta = {} 
         meta['author'] = author_name
         meta['title'] = title_text
+        meta['is_cif'] = is_cif
         meta['total'] = sum(scores.values())
         meta['scores'] = scores
         return meta
