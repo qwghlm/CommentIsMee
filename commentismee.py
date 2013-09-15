@@ -28,7 +28,7 @@ class CIFArticle:
     def download(self):
         # Check to see if a Guardian URL
         parsed_url = urlparse(self.url)
-        if False and parsed_url.netloc != "www.theguardian.com":
+        if parsed_url.netloc != "www.theguardian.com":
             print "Error - this is not a Guardian URL, aborting"
             return None
 
@@ -56,13 +56,17 @@ class CIFArticle:
         # Get an article
         soup = self.download()
         if not soup:
-            return
+            return {}
 
         # Desktop and mobile search for the relevant div
         div = soup.find("div", id="article-body-blocks") or soup.find("div", class_="article-body")
         if not div:
             print "Error - could not find relevant HTML in this page"
-            return
+            return {}
+
+        # Get rid of blockquotes so the count is fair(er)
+        for quote in div.find_all("blockquote"):
+            quote.decompose()
 
         # Get author, title and name
         author_tag = soup.find(rel="author")
@@ -90,8 +94,5 @@ class CIFArticle:
         return meta
 
 # Away we go!
-article = CIFArticle("http://www.theguardian.com/commentisfree/2013/sep/15/food-stamp-republican-cuts-stigma")
+article = CIFArticle("http://www.theguardian.com/commentisfree/2013/sep/15/julie-chen-asian-eye-surgery")
 print article.measure_ego()
-
-#measure_ego("http://www.theguardian.com/commentisfree/2013/sep/13/how-to-argue-rhetorical-fallacies")
-#measure_ego("http://www.theguardian.com/commentisfree/2013/aug/28/death-middle-class-undermine-democracy")
