@@ -7,6 +7,7 @@ Chris Applegate
 """
 
 # http://www.crummy.com/software/BeautifulSoup/
+# Also needs https://github.com/html5lib
 from bs4 import BeautifulSoup
 
 # http://docs.python-requests.org/en/latest/
@@ -19,61 +20,78 @@ from urlparse import urlparse, parse_qsl, urlunparse
 from urllib import urlencode
 
 
-def measure_ego(url):
+class CIFArticle:
 
-    # Check to see if a Guardian URL
-    parsed_url = urlparse(url)
-    if False and parsed_url.netloc != "www.theguardian.com":
-        print "Error - this is not a Guardian URL, aborting"
-        return
+    def __init__(self, url):
+        self.url = url
 
-    # Use the mobile version if possible - the HTML is better-formed
-    query = dict(parse_qsl(parsed_url.query))
-    query["view"] = "mobile"
-    url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, parsed_url.params, urlencode(query), ""))
+    def download(self):
+        # Check to see if a Guardian URL
+        parsed_url = urlparse(self.url)
+        if False and parsed_url.netloc != "www.theguardian.com":
+            print "Error - this is not a Guardian URL, aborting"
+            return None
 
-    # Fetch the page
-    print "Fetching %s..." % url
-    try:
-        r = requests.get(url)
-    except RequestException, e:
-        print "Error - could not connect to the URL %s" % url
-        return
+        # Use the mobile version if possible - the HTML is better-formed
+        query = dict(parse_qsl(parsed_url.query))
+        query["view"] = "mobile"
+        url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, parsed_url.params, urlencode(query), ""))
 
-    if r.status_code != 200:
-        print "Error %s encountered when logging to the URL %s" % (r.status_code, url)
-        return
+        # Fetch the page
+        print "Fetching %s..." % url
+        try:
+            r = requests.get(url)
+        except RequestException, e:
+            print "Error - could not connect to the URL %s" % url
+            return None
 
-    soup = BeautifulSoup(r.text, "html5lib")
+        if r.status_code != 200:
+            print "Error %s encountered when logging to the URL %s" % (r.status_code, url)
+            return None
 
-    # Desktop and mobile search for the relevant div
-    div = soup.find("div", id="article-body-blocks") or soup.find("div", class_="article-body")
-    if not div:
-        print "Error - could not find relevant HTML in this page"
-        return
+        return BeautifulSoup(r.text, "html5lib")
 
-    # Get author, tite and name
-    author_tag = soup.find(rel="author")
-    author_name = author_tag and author_tag.get_text() or "Unknown Author"
+    def measure_ego(self):
 
-    title_tag = soup.find("title")
-    title_text = title_tag and title_tag.get_text().split("|")[0].strip() or "Unknown Title"
+        # Get an article
+        soup = self.download()
+        if not soup:
+            return
 
-    # Cleanup whitespace and convert all to spaces
-    text = div.get_text(" ", strip=True) or ""
-    text = re.sub("\s+", " ", text)
+        # Desktop and mobile search for the relevant div
+        div = soup.find("div", id="article-body-blocks") or soup.find("div", class_="article-body")
+        if not div:
+            print "Error - could not find relevant HTML in this page"
+            return
 
-    # For each keyword, search through and get the score 
-    keywords = ("I", "me", "my", "myself", "mine")
-    scores = {}
-    for keyword in keywords:
-        tokens = re.findall(r"\b(%s)\b" % keyword.lower(), text, re.I)
-        scores[keyword] = len(tokens)
+        # Get author, title and name
+        author_tag = soup.find(rel="author")
+        author_name = author_tag and author_tag.get_text() or "Unknown Author"
 
-    total = sum(scores.values())
-    print "Total ego count for '%s' by %s: %s" % (title_text, author_name, total)
+        title_tag = soup.find("title")
+        title_text = title_tag and title_tag.get_text().split("|")[0].strip() or "Unknown Title"
+
+        # Cleanup whitespace and convert all to spaces
+        text = div.get_text(" ", strip=True) or ""
+        text = re.sub("\s+", " ", text)
+
+        # For each keyword, search through and get the score 
+        keywords = ("I", "me", "my", "myself", "mine")
+        scores = {}
+        for keyword in keywords:
+            tokens = re.findall(r"\b(%s)\b" % keyword.lower(), text, re.I)
+            scores[keyword] = len(tokens)
+
+        meta = {} 
+        meta['author'] = author_name
+        meta['title'] = title_text
+        meta['total'] = sum(scores.values())
+        meta['scores'] = scores
+        return meta
 
 # Away we go!
-measure_ego("http://www.theguardian.com/commentisfree/2013/sep/15/food-stamp-republican-cuts-stigma")
-measure_ego("http://www.theguardian.com/commentisfree/2013/sep/13/how-to-argue-rhetorical-fallacies")
+article = CIFArticle("http://www.theguardian.com/commentisfree/2013/sep/15/food-stamp-republican-cuts-stigma")
+print article.measure_ego()
 
+#measure_ego("http://www.theguardian.com/commentisfree/2013/sep/13/how-to-argue-rhetorical-fallacies")
+#measure_ego("http://www.theguardian.com/commentisfree/2013/aug/28/death-middle-class-undermine-democracy")
