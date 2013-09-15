@@ -74,7 +74,6 @@ def measure_ego(url):
     print "Total ego count for '%s' by %s: %s" % (title_text, author_name, total)
 
 # Away we go!
-measure_ego("http://www.theguardian.com/world/2013/sep/15/rape-india-campaign-safety-women")
-# measure_ego("http://www.theguardian.com/commentisfree/2013/sep/15/food-stamp-republican-cuts-stigma")
-# measure_ego("http://www.theguardian.com/commentisfree/2013/sep/13/how-to-argue-rhetorical-fallacies")
-# measure_ego('http://www.theguardian.com/commentisfree/2013/apr/29/bangladesh-factory-tragedy-sweatshop-economics')
+measure_ego("http://www.theguardian.com/commentisfree/2013/sep/15/food-stamp-republican-cuts-stigma")
+measure_ego("http://www.theguardian.com/commentisfree/2013/sep/13/how-to-argue-rhetorical-fallacies")
+
