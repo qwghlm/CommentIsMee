@@ -1,10 +1,4 @@
-#!/usr/bin/env python
-
-"""
-Comment Is Mee
-Chris Applegate
-(c) 2013
-"""
+from django.db import models
 
 # http://www.crummy.com/software/BeautifulSoup/
 # Also needs https://github.com/html5lib
@@ -14,13 +8,22 @@ from bs4 import BeautifulSoup
 import requests
 from requests.exceptions import RequestException
 
+# https://www.djangoproject.com/
+from django.db import models
+
 import re
 from pprint import pprint
 from urlparse import urlparse, parse_qsl, urlunparse
 from urllib import urlencode
 
+class CIFArticle(models.Model):
 
-class CIFArticle:
+    url = models.URLField(max_length=1024, unique=True)
+    author = models.CharField(max_length=200)
+    title = models.CharField(max_length=200)
+    is_cif = models.BooleanField()
+    total = models.IntegerField()
+    scores = models.TextField()
 
     def __init__(self, url):
         self.url = url
@@ -98,8 +101,8 @@ class CIFArticle:
         meta['is_cif'] = is_cif
         meta['total'] = sum(scores.values())
         meta['scores'] = scores
-        return meta
+        self.metadata = meta
 
 # Away we go!
-article = CIFArticle("http://www.theguardian.com/commentisfree/2013/sep/15/julie-chen-asian-eye-surgery")
-print article.measure_ego()
+# article = CIFArticle("http://www.theguardian.com/commentisfree/2013/sep/15/julie-chen-asian-eye-surgery")
+# print article.measure_ego()
