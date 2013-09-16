@@ -1,0 +1,12 @@
+<!-- Bootstrap goes here -->
+
+<h1><a href="{{ article.url }}">{{article.title}}</a></h1>
+<p>by {{article.author}}</p>
+
+<p>has an Ego Rating of</p>
+
+<p>{{ article.total }} </p>
+
+<p>This breaks down as follows:</p>
+
+<a href="{% url 'articles:Home' %}">Foo</a>
