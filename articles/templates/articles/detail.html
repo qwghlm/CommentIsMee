@@ -1,12 +1,30 @@
-<!-- Bootstrap goes here -->
+{% extends "articles/base.html" %}
 
-<h1><a href="{{ article.url }}">{{article.title}}</a></h1>
-<p>by {{article.author}}</p>
+{% block content %}
 
-<p>has an Ego Rating of</p>
+<div id="main" class="span8 offset2 text-center">
 
-<p>{{ article.total }} </p>
 
-<p>This breaks down as follows:</p>
+	<p>
+		<a href="{{ article.url }}">{{article.title}}</a>
+		<span id="author">by <strong>{{article.author}}</strong></span>
 
-<a href="{% url 'articles:Home' %}">Foo</a>
+	<br/>
+
+	has an Ego Rating of</p>
+
+	<p class="score">{{ article.total }} </p>
+
+	<p>This breaks down as follows:</p>
+
+	<p><!-- Breakdown here --></p>
+
+</div>
+
+<footer class="span8 offset2 well">
+	<a href="{% url 'articles:Home' %}" class="pull-left">Home</a>
+
+	<a href="#" class="pull-right">About</a>
+</footer>
+
+{% endblock %}
