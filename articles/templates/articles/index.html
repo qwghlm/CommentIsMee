@@ -2,22 +2,19 @@
 
 {% block content %}
 
-<p class="text-center">Just how self-obsessed is that <em>Comment Is Free</em> article? Find out by entering the URL below:</p>
+<div id="form-wrapper">
 
-<form method="post" action="{% url 'articles:Home' %}" class="span6 offset3 form-horizontal">
-	{% csrf_token %}
-	{{form}}
-	<input type="submit" value="Go" class="btn btn-primary"/>
+	<p class="text-center">Just how self-obsessed is that <em>Comment Is Free</em> article? Find out by entering the URL below:</p>
 
-</form>
+	{% include "articles/form.html" %}
 
-<!-- TODO Add in top 5/10 table -->
+</div>
 
-<div class="span8 offset2">
+<div id="top-articles">
 
 	<h2>Top Articles</h2>
 
-	<p>Remember, this isn't a game, but if you're curious as to what articles are worst:</p>
+	<p>Remember, this isn't a game, but if you're curious as to what articles have the highest scores, here you go:</p>
 
 	<table class="table table-striped table-bordered">
 
@@ -30,7 +27,7 @@
 
 		<tr>
 			<td><a href="{% url 'articles:detail' article.id %}">{{article.title}}</a> by {{article.author}}</td>
-			<td>{{article.score}}</td>
+			<td>{{article.score | floatformat:2}}</td>
 		</tr>
 
 	{% endfor %}

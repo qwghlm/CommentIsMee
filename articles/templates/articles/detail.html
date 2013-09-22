@@ -2,34 +2,52 @@
 
 {% block content %}
 
-<div id="main" class="span8 offset2 text-center">
+<div class="text-center">
 
-	<p>
-		<a href="{{ article.url }}">{{article.title}}</a><br/>
-		<span id="author">by <strong>{{article.author}}</strong></span>
+	<div id="result">
 
-	<br/>
+		<p>
+			<a href="{{ article.url }}">{{article.title}}</a><br/>
+			<span id="author">by <strong>{{article.author}}</strong></span>
 
-	has an Ego Rating of</p>
+		<br/>
 
-	<p class="score">{{ article.score }} </p>
+		has an Ego Rating of</p>
 
-	<p>Self-references per 1,000 words</p>
+		<p class="score">{{ article.score }} </p>
 
-	<!-- TODO: Rate it in some way? -->
+		<p>Self-references per 1,000 words</p>
 
-	<p>This breaks down as follows:</p>
+		<!-- TODO: Rate it in some way? -->
 
-	<dl class="dl-horizontal">
-		{% for word, count in article.get_word_counts.items %}
-			<dt class="text-right">{{word}}</dt>
-			<dd class="text-left">{{count}}</dd>
-			<br/>
-		{% endfor %}
-	</dl>
+	</div>
 
-	<p>That's a total of {{ article.get_total }} in <strong>{{ article.word_count }}</strong> words.</p>
+	<div id="breakdown">
 
+		<p>This breaks down as follows:</p>
+
+		<dl class="dl-horizontal">
+			{% for word, count in article.get_word_counts.items %}
+				<dt class="text-right">{{word}}</dt>
+				<dd class="text-left">{{count}}</dd>
+			{% endfor %}
+		</dl>
+
+	</div>
+
+	<div id="totals">
+		<p>
+			That's a total of {{ article.get_total }} self-references in <strong>{{ article.word_count }}</strong> words.</p>
+		</p>
+	</div>
+
+	<div id="form-wrapper">
+
+		<p>Want another? Have a go below:</p>
+
+		{% include "articles/form.html" %}
+
+	</div>
 </div>
 
 {% endblock %}

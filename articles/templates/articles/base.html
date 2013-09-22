@@ -22,11 +22,25 @@
     <style type="text/css">
     .score {
         font-size: 500%;
-        line-height: 200%;
+        line-height: 150%;
         font-weight: bold;
     }
     form label {
         display: none;
+    }
+    ul.errorlist {
+        list-style: none;
+        margin: 0;
+    }
+    ul.errorlist li {
+        color: red;
+        text-indent: 0;
+        display: block;
+        font-size: 80%;
+    }
+    #breakdown dl {
+        width: 50%;
+        margin: auto;
     }
     </style>
 
@@ -38,25 +52,37 @@
 
 <div class="container">
 
-    <h1 class="span12 text-center">Comment Is Mee</h1>
-    <span class="text-center span12">Tracking the most self-centred pieces in <em>Comment Is Free</em></span>
+    <div class="row">
 
-    {% block content %}
+        <h1 class="span8 offset2 text-center">Comment Is Mee</h1>
+        <div id="strapline" class="span8 offset2 text-center">Tracking the most self-centred pieces in <em>Comment Is Free</em></div>
 
-    Empty page
-
-    {% endblock %}
-
-<footer class="span8 offset2">
-    <div class="span3 pull-left">
-        <a href="{% url 'articles:Home' %}" class="pull-left">Home</a>
     </div>
 
-    <div class="span3 pull-right text-right">
-        <a href="http://github.com/qwghlm/CommentIsMee">Github</a> |
-        <a href="http://www.qwghlm.co.uk">About</a> <!-- TODO Change URL! -->
+    <div class="row">
+
+        <div id="content" class="span8 offset2">
+
+        {% block content %}
+
+        Empty page
+
+        {% endblock %}
+
+        </div>
+
+        <footer class="span8 offset2">
+            <div class="pull-left">
+                <a href="{% url 'articles:Home' %}" class="pull-left">Home</a>
+            </div>
+
+            <div class="span3 pull-right text-right">
+                <a href="http://github.com/qwghlm/CommentIsMee">Github</a> |
+                <a href="http://www.qwghlm.co.uk">About</a> <!-- TODO Change URL! -->
+            </div>
+        </footer>
+
     </div>
-</footer>
 
 </div> <!-- container -->
 
