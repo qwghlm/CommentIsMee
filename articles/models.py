@@ -1,5 +1,3 @@
-# TODO: python manage.py syncdb
-
 # http://www.crummy.com/software/BeautifulSoup/
 # Also needs https://github.com/html5lib
 from bs4 import BeautifulSoup
@@ -18,7 +16,6 @@ from pprint import pprint
 from urlparse import urlparse, parse_qsl, urlunparse
 from urllib import urlencode
 
-
 class CIFArticle(models.Model):
     """
     Model representing a CIF article
@@ -29,6 +26,7 @@ class CIFArticle(models.Model):
     is_cif = models.BooleanField(default=False)
     scores = models.TextField()
     word_count = models.IntegerField(default=0)
+    score = models.IntegerField(default=0)
 
     def __repr__(self):
         return "'%s' by %s" % (self.title, self.author)
@@ -50,7 +48,6 @@ class CIFArticle(models.Model):
         url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, parsed_url.params, urlencode(query), ""))
 
         # Fetch the page
-        print "Fetching %s..." % url
         try:
             r = requests.get(url)
         except RequestException, e:
@@ -103,6 +100,7 @@ class CIFArticle(models.Model):
 
         self.word_count = len(text.split(' '))
         self.scores = json.dumps(scores)
+        self.score = round(1000 * self.get_total()/float(self.word_count), 2)
 
     def get_word_counts(self):
         try:
@@ -113,9 +111,6 @@ class CIFArticle(models.Model):
 
     def get_total(self):
         return sum(self.get_word_counts().values())
-
-    def get_score(self):
-        return round(1000 * self.get_total()/float(self.word_count), 2)
 
 class CIFArticleForm(ModelForm):
     class Meta:
