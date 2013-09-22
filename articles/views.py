@@ -1,4 +1,3 @@
-# Create your views here.
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import render, get_object_or_404, redirect
@@ -15,15 +14,14 @@ def index(request):
 
         except CIFArticle.DoesNotExist:
             form = CIFArticleForm(request.POST)
-
-            # FIXME - incorporate updating & validation into Django's own validation?
             if (form.is_valid()):            
                 try:
                     article = form.save(commit=False)
                     article.measure_ego()
                     article.save()
-                except ValueError:
+                except ValueError, e:
                     article = None
+                    form._errors["url"] = form.error_class([str(e)])
     else:
         form = CIFArticleForm()
 
@@ -39,5 +37,8 @@ def index(request):
 
 def detail(request, article_id):
     article = get_object_or_404(CIFArticle, id=article_id) # TODO What does the 404 look like?
-    return render(request, 'articles/detail.html', {'article' : article})
+    form = CIFArticleForm()
+    return render(request, 'articles/detail.html', {
+        'article' : article,
+        'form' : form })
 

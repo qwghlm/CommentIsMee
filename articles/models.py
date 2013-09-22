@@ -8,7 +8,8 @@ from requests.exceptions import RequestException
 
 # https://www.djangoproject.com/
 from django.db import models
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
+from django.core.exceptions import ValidationError
 
 import json
 import re
@@ -16,11 +17,38 @@ from pprint import pprint
 from urlparse import urlparse, parse_qsl, urlunparse
 from urllib import urlencode
 
+
+class CIFURLField(models.URLField):
+
+    def to_python(self, value):
+        """
+        Get rid of query and anchor when saving URL canonically
+        """
+        parsed_url = urlparse(value)
+        url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, "", "", ""))
+        return url
+
+    def validate(self, value, form):
+        """
+        Validate and make sure this is a Guardian URL
+        """
+        super(CIFURLField, self).validate(value, form)
+        parsed_url = urlparse(value)
+
+        valid_domains = ("theguardian.com", "guardian.co.uk", "gu.com")
+        for domain in valid_domains:
+            if parsed_url.netloc.find(domain) > -1:
+                return
+
+        raise ValidationError(
+            "Sorry, %s does not appear to be a Guardian URL" % value,
+            code="invalid")
+
 class CIFArticle(models.Model):
     """
     Model representing a CIF article
     """
-    url = models.URLField(max_length=1024, unique=True)
+    url = CIFURLField(max_length=1024, unique=True)
     author = models.CharField(max_length=200)
     title = models.CharField(max_length=200)
     is_cif = models.BooleanField(default=False)
@@ -35,14 +63,12 @@ class CIFArticle(models.Model):
         return "'%s' by %s" % (self.title, self.author)
 
     def download(self):
-
-        # Check to see if a Guardian URL
-        parsed_url = urlparse(self.url)
-        # FIXME be more forgiving!
-        if parsed_url.netloc != "www.theguardian.com":
-            raise ValueError("Sorry, that does not appear to be a Guardian URL")
+        """
+        Download URL of this article and returns a BeautifulSoup object representing it
+        """
 
         # Use the mobile version if possible - the HTML is better-formed
+        parsed_url = urlparse(self.url)
         query = dict(parse_qsl(parsed_url.query))
         query["view"] = "mobile"
         url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, parsed_url.params, urlencode(query), ""))
@@ -56,10 +82,15 @@ class CIFArticle(models.Model):
         if r.status_code != 200:
             raise ValueError("Sorry, I cannot connect to the URL %s, error %s" % (r.status_code, url))
 
+        # If redirect, save redirected
+        self.url = r.url
         soup = BeautifulSoup(r.text, "html5lib")
         return soup
 
     def measure_ego(self):
+        """
+        Measure the number of first-person pronouns
+        """
 
         # Get an article
         soup = self.download()
@@ -69,7 +100,7 @@ class CIFArticle(models.Model):
         # Desktop and mobile search for the relevant div
         div = soup.find("div", id="article-body-blocks") or soup.find("div", class_="article-body")
         if not div:
-            raise ValueError("Sorry, I could not find relevant HTML in that page")
+            raise ValueError("Sorry, I could not find an article in that page")
 
         # Get rid of blockquotes so the count is fair(er)
         for quote in div.find_all("blockquote"):
@@ -103,6 +134,9 @@ class CIFArticle(models.Model):
         self.score = round(1000 * float(self.get_total())/float(self.word_count), 2)
 
     def get_word_counts(self):
+        """
+        Get word counts as JSON, with fallback for legacy versions
+        """
         try:
             data = json.loads(self.scores)
             return data
@@ -110,9 +144,16 @@ class CIFArticle(models.Model):
             return {}
 
     def get_total(self):
+        """
+        Get total number of words from our word count breakdown
+        """
         return sum(self.get_word_counts().values())
 
 class CIFArticleForm(ModelForm):
+    """
+    Simplified URL-only form for user to search for
+    """
     class Meta:
         model = CIFArticle
         fields = ['url']
+
