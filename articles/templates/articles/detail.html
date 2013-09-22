@@ -1,5 +1,7 @@
 {% extends "articles/base.html" %}
 
+{% load humanize %}
+
 {% block content %}
 
 <div class="text-center">
@@ -37,7 +39,7 @@
 
 	<div id="totals">
 		<p>
-			That's a total of {{ article.get_total }} self-references in <strong>{{ article.word_count }}</strong> words.</p>
+			That's a total of {{ article.get_total }} self-references in <strong>{{ article.word_count | intcomma }}</strong> words.</p>
 		</p>
 	</div>
 
