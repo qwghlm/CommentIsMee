@@ -5,7 +5,6 @@ from articles import views
 urlpatterns = patterns('',
     url(r'^$', views.index, name='Home'),
     url(r'^add/$', views.add, name='Add'),
-	#    url(r'^article/$', views.detail, name='Article'),
 	url(r'^(?P<article_id>\d+)/$', views.detail, name='detail'),
 )
 

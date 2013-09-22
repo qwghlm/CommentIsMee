@@ -19,6 +19,9 @@
         line-height: 200%;
         font-weight: bold;
     }
+    form label {
+        display: none;
+    }
     </style>
 
     {% bootstrap_javascript_tag %}
@@ -39,6 +42,17 @@
     Empty page
 
     {% endblock %}
+
+<footer class="span8 offset2">
+    <div class="span3 pull-left">
+        <a href="{% url 'articles:Home' %}" class="pull-left">Home</a>
+    </div>
+
+    <div class="span3 pull-right text-right">
+        <a href="http://github.com/qwghlm/CommentIsMee">Github</a> |
+        <a href="http://www.qwghlm.co.uk">About</a>
+    </div>
+</footer>
 
 </div> <!-- container -->
 
