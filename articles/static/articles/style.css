@@ -57,6 +57,9 @@ form {
     margin: 20px auto;
 }
 
+.alert {
+    margin-top: 10px;
+}
 form label {
     display: none;
 }
@@ -65,10 +68,9 @@ ul.errorlist {
     margin: 0;
 }
 ul.errorlist li {
-    color: red;
+    font-size: 90%;
     text-indent: 0;
     display: block;
-    font-size: 80%;
 }
 
 /* Details page */

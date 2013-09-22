@@ -161,7 +161,7 @@ class CIFArticle(models.Model):
         """
         messages = {
             0 : "Not a single word! How very worldly and refined.",
-            5 : "The odd word in there, not too bad for CIF.",
+            5 : "The odd self-mention in there, but we can let it pass.",
             10 : "Not great, but at least you'll get a word in edgeways sometimes.",
             20 : "Might have a bit of trouble getting their head through the door from time to time.",
             40 : "Someone's 'I' key on their keyboard is going to need replacing very soon.",
