@@ -30,7 +30,7 @@ class CIFURLField(models.URLField):
 
     def validate(self, value, form):
         """
-        Validate and make sure this is a Guardian URL
+        Validate and make sure this is a valid URL
         """
         super(CIFURLField, self).validate(value, form)
         parsed_url = urlparse(value)
@@ -62,12 +62,12 @@ class CIFArticle(models.Model):
     def __str__(self):
         return "'%s' by %s" % (self.title, self.author)
 
-    def download(self):
+    def download_page(self):
         """
-        Download URL of this article and returns a BeautifulSoup object representing it
+        Download URL of this article and returns the HTML of that page as a string
         """
 
-        # Use the mobile version if possible - the HTML is better-formed
+        # Use the mobile version - the HTML is better-formed
         parsed_url = urlparse(self.url)
         query = dict(parse_qsl(parsed_url.query))
         query["view"] = "mobile"
@@ -84,27 +84,17 @@ class CIFArticle(models.Model):
 
         # If redirect, save redirected
         self.url = r.url
-        soup = BeautifulSoup(r.text, "html5lib")
-        return soup
+        return r.text
 
-    def measure_ego(self):
+    def extract_article(self):
         """
-        Measure the number of first-person pronouns
+        Extracts article out of a downloaded URL as text
         """
-
         # Get an article
-        soup = self.download()
+        html = self.download_page()
+        soup = BeautifulSoup(html, "html5lib")
         if not soup:
             raise ValueError("Sorry, I could not parse that page properly")
-
-        # Desktop and mobile search for the relevant div
-        div = soup.find("div", id="article-body-blocks") or soup.find("div", class_="article-body")
-        if not div:
-            raise ValueError("Sorry, I could not find an article in that page")
-
-        # Get rid of blockquotes so the count is fair(er)
-        for quote in div.find_all("blockquote"):
-            quote.decompose()
 
         # Get author, title and name
         author_tag = soup.find(rel="author")
@@ -118,9 +108,25 @@ class CIFArticle(models.Model):
         section = section_tag and section_tag['content'] or "Unknown Section"
         self.is_cif = self.url.find('commentisfree') > -1 or section.lower() == "comment is free"
 
-        # Cleanup whitespace and convert all to spaces
+        # Desktop and mobile search for the relevant div
+        div = soup.find("div", id="article-body-blocks") or soup.find("div", class_="article-body")
+        if not div:
+            raise ValueError("Sorry, I could not find an article in that page")
+
+        # Get rid of blockquotes so the count is fair(er)
+        for quote in div.find_all("blockquote"):
+            quote.decompose()
+
+        # Cleanup whitespace, convert all to spaces and then return
         text = div.get_text(" ", strip=True) or ""
         text = re.sub("\s+", " ", text)
+        return text
+
+    def measure_ego(self):
+        """
+        Measure the number of first-person pronouns
+        """
+        text = self.extract_article()
 
         # For each keyword, search through and get the score 
         keywords = ("I", "me", "my", "myself", "mine")
