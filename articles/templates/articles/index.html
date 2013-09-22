@@ -1,10 +1,12 @@
 {% extends "articles/base.html" %}
 
+{% block body_class %}index{% endblock %}
+
 {% block content %}
 
-<div id="form-wrapper">
+<div id="form-wrapper" class="text-center">
 
-	<p class="text-center">Just how self-obsessed is that <em>Comment Is Free</em> article you're reading?</p>
+	<p>Just how self-obsessed is that <em>Comment Is Free</em> article you're reading?</p>
 
 	{% include "articles/form.html" %}
 

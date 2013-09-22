@@ -29,12 +29,13 @@
 
 		<p>This breaks down as follows:</p>
 
-		<dl class="dl-horizontal">
+		<div id="breakdown-inner">
 			{% for word, count in article.get_word_counts.items %}
-				<dt class="text-right">{{word}}:</dt>
-				<dd class="text-left">{{count}}</dd>
+				<div class="text-right">{{word}}:</div>
+				<div class="text-left">{{count}}</div>
 			{% endfor %}
-		</dl>
+			<div class="clearfix"></div>
+		</div>
 
 	</div>
 
@@ -42,6 +43,13 @@
 		<p>
 			That's a total of {{ article.get_total }} self-references in {{ article.word_count | intcomma }} words &ndash; i.e. {{ article.score }} per 1,000 words</p>
 		</p>
+	</div>
+
+	<div id="share-button">
+
+		Tweet this result:
+
+		<a href="https://twitter.com/share" class="twitter-share-button" data-text='&#34;{{article.title}}&#34; by {{article.author}} rated {{article.score}} on #CommentIsMee' data-size="large" data-count="none" data-related="qwghlm">Tweet</a>
 	</div>
 
 	<div id="form-wrapper">

@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<!-- TODO Add a custom Bootstrap build -->
-{% load bootstrap_toolkit %}
 {% load url from future %}
 {% load staticfiles %}
 <html lang="en">
@@ -8,9 +6,13 @@
     <meta charset="utf-8">
     <title>Comment Is Mee</title>
 
+    {% if article %}
+    <meta name="description" content="&#34;{{article.title}}&#34; by {{article.author}} scored {{article.score}} on Comment Is Mee">
+    {% else %}
     <meta name="description" content="Tracking the most self-centred pieces in Comment Is Free">
-    <meta name="author" content="Chris Applegate">
+    {% endif %}    
 
+    <meta name="author" content="Chris Applegate">
 
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="{% static 'articles/bootstrap.min.css' %}" />
@@ -20,13 +22,26 @@
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <!-- TODO Add Open Graph and Mobile tags -->
+    <meta property="og:title" content="Comment Is Mee" />
 
-    {% bootstrap_javascript_tag %}
+    {% if article %}
+    <meta property="og:description" content="&#34;{{article.title}}&#34; by {{article.author}} scored {{article.score}} on Comment Is Mee">
+    {% else %}
+    <meta property="og:description" content="Tracking the most self-centred articles on Comment Is Free">
+    {% endif %} 
+
+    <meta property="og:type" content="website" />
+    <!-- TODO <meta property="og:url" content="" /> -->
+    <!-- TODO <meta property="og:image" content=" -->
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content="Comment Is Mee"/>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     {% block extra_head %}{% endblock %}
 </head>
 
-<body>
+<body class="{% block body_class %}{% endblock %}">
 
 <div class="container">
 
@@ -38,7 +53,7 @@
                 <span class="header-2">is</span>
                 <span class="header-3">mee</span></a>
             </a></h1>
-        <div id="strapline" class="span8 offset2 text-center">Tracking the most self-centred articles in <em>Comment Is Free</em></div>
+        <div id="strapline" class="span8 offset2 text-center">Tracking the most self-centred articles on <em>Comment Is Free</em></div>
 
     </div>
 
@@ -54,15 +69,21 @@
 
         </div>
 
+    </div>
+
+    <div class="row-fluid">
+
         <footer class="span8 offset2 well">
             <div class="pull-left">
                 <a href="{% url 'articles:Home' %}" class="pull-left">Home</a>
             </div>
 
-            <div class="span3 pull-right text-right">
+            <div class="pull-right text-right">
                 <a href="http://github.com/qwghlm/CommentIsMee">Github</a> |
                 <a href="http://www.qwghlm.co.uk">About</a> <!-- TODO Change URL! -->
             </div>
+
+            <div class="clearfix"></div>
         </footer>
 
     </div>
@@ -71,5 +92,11 @@
 
 </body>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+
 <!-- TODO : Google Analytics -->
+
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+{% block extra_footer %}{% endblock %}
+
 </html>
