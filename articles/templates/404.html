@@ -1,0 +1,16 @@
+{% extends "articles/base.html" %}
+
+{% load humanize %}
+
+{% block content %}
+
+<div class="text-center">
+
+	<div id="form-wrapper">
+
+		<p>Sorry. No such article exists in the database. <a href="{% url 'articles:Home' %}">Try searching again</a>.</p>
+
+	</div>
+</div>
+
+{% endblock %}

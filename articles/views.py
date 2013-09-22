@@ -36,8 +36,8 @@ def index(request):
         })
 
 def detail(request, article_id):
-    article = get_object_or_404(CIFArticle, id=article_id) # TODO What does the 404 look like?
     form = CIFArticleForm()
+    article = get_object_or_404(CIFArticle, id=article_id)
     return render(request, 'articles/detail.html', {
         'article' : article,
         'form' : form })
