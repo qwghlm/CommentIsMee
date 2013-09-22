@@ -1,2 +1,6 @@
 *.pyc
 *.sublime-*
+
+*.db
+
+# TODO : Add settings.py to this?
