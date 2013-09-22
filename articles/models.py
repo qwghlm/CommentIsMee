@@ -25,8 +25,8 @@ class CIFArticle(models.Model):
     title = models.CharField(max_length=200)
     is_cif = models.BooleanField(default=False)
     scores = models.TextField()
+    score = models.FloatField(default=0.0)
     word_count = models.IntegerField(default=0)
-    score = models.IntegerField(default=0)
 
     def __repr__(self):
         return "'%s' by %s" % (self.title, self.author)
@@ -100,7 +100,7 @@ class CIFArticle(models.Model):
 
         self.word_count = len(text.split(' '))
         self.scores = json.dumps(scores)
-        self.score = round(1000 * self.get_total()/float(self.word_count), 2)
+        self.score = round(1000 * float(self.get_total())/float(self.word_count), 2)
 
     def get_word_counts(self):
         try:
