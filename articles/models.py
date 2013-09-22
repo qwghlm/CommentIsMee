@@ -155,6 +155,23 @@ class CIFArticle(models.Model):
         """
         return sum(self.get_word_counts().values())
 
+    def get_message(self):
+        """
+        Return a sarcastic message depending on the quality of the article
+        """
+        messages = {
+            0 : "Not a single word! How very worldly and refined.",
+            5 : "The odd word in there, not too bad for CIF.",
+            10 : "Not great, but at least you'll get a word in edgeways sometimes.",
+            20 : "Might have a bit of trouble getting their head through the door from time to time.",
+            40 : "Someone's 'I' key on their keyboard is going to need replacing very soon.",
+            60 : "I bet the person who wrote this has a picture of themselves on their desk.",
+            100 : "That article is going to get very boring very quickly. Unless you wrote it.",
+            1000 : "More than 10%! The world must literally revolve around this person.",
+        }
+        message_key = min([key for key in messages.keys() if self.score <= key])
+        return messages[message_key]
+
 class CIFArticleForm(ModelForm):
     """
     Simplified URL-only form for user to search for
