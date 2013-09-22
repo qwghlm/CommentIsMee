@@ -4,11 +4,33 @@
 
 <p class="text-center">Just how self-obsessed is that <em>Comment Is Free</em> article? Find out by entering the URL below:</p>
 
-<form method="post" action="{% url 'articles:Add' %}" class="span6 offset3 form-horizontal">
+<form method="post" action="{% url 'articles:Home' %}" class="span6 offset3 form-horizontal">
 	{% csrf_token %}
 	{{form}}
 	<input type="submit" value="Go" class="btn btn-primary"/>
 
 </form>
+
+<!-- TODO Add in top 5/10 table -->
+
+<div class="span8 offset2">
+
+	<h2>Top Articles</h2>
+
+	<p>Remember, this isn't a game, but if you're curious as to what articles are worst:</p>
+
+	<table>
+
+	{% for article in top_articles %}
+
+		<tr>
+			<td><a href="{% url 'articles:detail' article.id %}">{{article.title}}</a> by {{article.author}}</td>
+			<td>{{article.score}}</td>
+		</tr>
+
+	{% endfor %}
+
+	</table>
+</div>
 
 {% endblock %}
