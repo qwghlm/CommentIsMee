@@ -1,10 +1,12 @@
 <!DOCTYPE html>
+<!-- TODO Add a custom Bootstrap build -->
 {% load bootstrap_toolkit %}
 {% load url from future %}
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <title>Comment Is Mee</title>
+
     <meta name="description" content="Tracking the most self-centred pieces in Comment Is Free">
     <meta name="author" content="Chris Applegate">
     {% bootstrap_stylesheet_tag %}
@@ -12,6 +14,10 @@
     <!--[if lt IE 9]>
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+
+    <!-- TODO Add Open Graph and Mobile tags -->
+
+    <!-- TODO Add into an external CSS file -->
 
     <style type="text/css">
     .score {
@@ -32,8 +38,6 @@
 
 <div class="container">
 
-    {% bootstrap_messages %}
-
     <h1 class="span12 text-center">Comment Is Mee</h1>
     <span class="text-center span12">Tracking the most self-centred pieces in <em>Comment Is Free</em></span>
 
@@ -50,7 +54,7 @@
 
     <div class="span3 pull-right text-right">
         <a href="http://github.com/qwghlm/CommentIsMee">Github</a> |
-        <a href="http://www.qwghlm.co.uk">About</a>
+        <a href="http://www.qwghlm.co.uk">About</a> <!-- TODO Change URL! -->
     </div>
 </footer>
 
