@@ -1,0 +1,33 @@
+{% extends "articles/base.html" %}
+
+{% block content %}
+
+<div id="main" class="span8 offset2 text-center">
+
+	<p>
+		<a href="{{ article.url }}">{{article.title}}</a><br/>
+		<span id="author">by <strong>{{article.author}}</strong></span>
+
+	<br/>
+
+	has an Ego Rating of</p>
+
+	<p class="score">{{ article.get_score }} </p>
+
+	<p>Self-references per 1,000 words</p>
+
+	<p>This breaks down as follows:</p>
+
+	<dl class="dl-horizontal">
+		{% for word, count in article.get_word_counts.items %}
+			<dt class="text-right">{{word}}</dt>
+			<dd class="text-left">{{count}}</dd>
+			<br/>
+		{% endfor %}
+	</dl>
+
+	<p>That's a total of {{ article.get_total }} in <strong>{{ article.word_count }}</strong> words.</p>
+
+</div>
+
+{% endblock %}

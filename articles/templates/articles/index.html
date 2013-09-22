@@ -1,0 +1,14 @@
+{% extends "articles/base.html" %}
+
+{% block content %}
+
+<p class="text-center">Just how self-obsessed is that <em>Comment Is Free</em> article? Find out by entering the URL below:</p>
+
+<form method="post" action="{% url 'articles:Add' %}" class="span6 offset3 form-horizontal">
+	{% csrf_token %}
+	{{form}}
+	<input type="submit" value="Go" class="btn btn-primary"/>
+
+</form>
+
+{% endblock %}

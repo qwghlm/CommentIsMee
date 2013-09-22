@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+{% load bootstrap_toolkit %}
+{% load url from future %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Comment Is Mee</title>
+    <meta name="description" content="Tracking the most self-centred pieces in Comment Is Free">
+    <meta name="author" content="Chris Applegate">
+    {% bootstrap_stylesheet_tag %}
+
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <style type="text/css">
+    .score {
+        font-size: 500%;
+        line-height: 200%;
+        font-weight: bold;
+    }
+    form label {
+        display: none;
+    }
+    </style>
+
+    {% bootstrap_javascript_tag %}
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+
+<div class="container">
+
+    {% bootstrap_messages %}
+
+    <h1 class="span12 text-center">Comment Is Mee</h1>
+    <span class="text-center span12">Tracking the most self-centred pieces in <em>Comment Is Free</em></span>
+
+    {% block content %}
+
+    Empty page
+
+    {% endblock %}
+
+<footer class="span8 offset2">
+    <div class="span3 pull-left">
+        <a href="{% url 'articles:Home' %}" class="pull-left">Home</a>
+    </div>
+
+    <div class="span3 pull-right text-right">
+        <a href="http://github.com/qwghlm/CommentIsMee">Github</a> |
+        <a href="http://www.qwghlm.co.uk">About</a>
+    </div>
+</footer>
+
+</div> <!-- container -->
+
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+<!-- TODO : Google Analytics -->
+</html>
