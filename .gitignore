@@ -3,4 +3,7 @@
 
 *.db
 
+.coverage
+htmlcov/*
+
 # TODO : Add settings.py to this?
