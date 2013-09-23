@@ -57,10 +57,10 @@ class CIFArticle(models.Model):
     word_count = models.IntegerField(default=0)
 
     def __repr__(self):
-        return "'%s' by %s" % (self.title, self.author)
+        return '"%s" by %s' % (self.title, self.author)
 
     def __str__(self):
-        return "'%s' by %s" % (self.title, self.author)
+        return '"%s" by %s' % (self.title, self.author)
 
     def download_page(self):
         """

@@ -15,7 +15,7 @@
 		</p>
 
 		<p class="has-rating">
-			has an Ego Rating of:
+			has a Comment Is Mee score of:
 		</p>
 
 		<p class="score">
@@ -23,6 +23,13 @@
 
 		<p>{{article.get_message}}</p>
 
+	</div>
+
+	<div id="share-button">
+
+		Tweet this result:
+
+		<a href="https://twitter.com/share" class="twitter-share-button" data-text='{{article}} scored {{article.score}} on #CommentIsMee' data-size="large" data-count="none" data-related="qwghlm">Tweet</a>
 	</div>
 
 	<div id="breakdown">
@@ -43,13 +50,6 @@
 		<p>
 			That's a total of {{ article.get_total }} self-references in {{ article.word_count | intcomma }} words &ndash; i.e. {{ article.score }} per 1,000 words</p>
 		</p>
-	</div>
-
-	<div id="share-button">
-
-		Tweet this result:
-
-		<a href="https://twitter.com/share" class="twitter-share-button" data-text='&#34;{{article.title}}&#34; by {{article.author}} scored {{article.score}} on #CommentIsMee' data-size="large" data-count="none" data-related="qwghlm">Tweet</a>
 	</div>
 
 	<div id="form-wrapper">
