@@ -126,7 +126,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     
     # Humanize
-    'django.contrib.humanize'
+    'django.contrib.humanize',
     
     # Articles
     'articles',
