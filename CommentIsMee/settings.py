@@ -1,3 +1,4 @@
+# Django settings for CommentIsMee project.
 # Per-server settings are in settings_dev.py, settings_prod.py
 
 # Local time zone for this installation. Choices can be found here:
@@ -89,11 +90,14 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
+    
+    # Humanize
     'django.contrib.humanize',
+    
+    # Articles
     'articles',
+
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
