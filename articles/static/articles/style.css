@@ -148,6 +148,17 @@ p {
     margin-bottom: 10px;
 }
 
+footer {
+    margin: 20px 0;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+    font-size: 90%;
+}
+
+footer a {
+    padding: 0 1em;
+}
+
 @media (min-width: 768px) {
 
 
