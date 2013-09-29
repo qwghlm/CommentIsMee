@@ -11,4 +11,5 @@
 .coverage
 htmlcov/*
 
-# TODO : Add settings.py to this?
+settings_dev.py
+settings_prod.py
