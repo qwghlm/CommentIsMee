@@ -29,8 +29,8 @@
     {% endif %} 
 
     <meta property="og:type" content="website" />
-    <!-- TODO <meta property="og:url" content="" /> -->
-    <!-- TODO <meta property="og:image" content=" -->
+    <meta property="og:url" content="{{request.build_absolute_uri}}" />
+    <meta property="og:image" content="{% static 'articles/commentismee.png' %}" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Comment Is Mee"/>
     <meta property="og:author" content="Chris Applegate" />

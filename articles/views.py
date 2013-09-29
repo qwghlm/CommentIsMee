@@ -44,7 +44,7 @@ def index(request):
         return render(request, 'articles/index.html', {
             'form' : form ,
             'top_articles' : top_articles
-        })
+        }, context_instance=RequestContext(request))
 
 def detail(request, article_id):
     """
@@ -55,4 +55,5 @@ def detail(request, article_id):
     article = get_object_or_404(CIFArticle, id=article_id)
     return render(request, 'articles/detail.html', {
         'article' : article,
-        'form' : form })
+        'form' : form },
+        context_instance=RequestContext(request))
