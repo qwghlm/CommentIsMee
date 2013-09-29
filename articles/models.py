@@ -48,7 +48,7 @@ class CIFArticle(models.Model):
     """
     Model representing a CIF article
     """
-    url = CIFURLField(max_length=1024, unique=True)
+    url = CIFURLField(max_length=1024)
     author = models.CharField(max_length=200)
     title = models.CharField(max_length=200)
     is_cif = models.BooleanField(default=False)
@@ -83,7 +83,7 @@ class CIFArticle(models.Model):
             raise ValueError("Sorry, I cannot connect to the URL %s" % url)
 
         if r.status_code != 200:
-            raise ValueError("Sorry, I cannot connect to the URL %s, error %s" % (r.status_code, url))
+            raise ValueError("Sorry, I cannot connect to the URL %s, error %s" % (url, r.status_code))
 
         # If redirect, save redirected
         self.url = r.url
