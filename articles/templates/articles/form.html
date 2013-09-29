@@ -1,0 +1,15 @@
+	<form method="post" action="{% url 'articles:Home' %}" class="form-horizontal">
+		{% csrf_token %}
+	    {% for field in form.visible_fields %}
+	        {{ field.label_tag }} {{ field }}
+	    {% endfor %}
+		<input type="submit" value="Go!" class="btn btn-primary"/>
+
+	    {% for field in form.visible_fields %}
+	    	{% if field.errors %}
+    		<div class="alert">
+	        {{ field.errors }}
+			</div>
+			{% endif %}
+	    {% endfor %}
+	</form>

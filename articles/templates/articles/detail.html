@@ -1,33 +1,64 @@
 {% extends "articles/base.html" %}
 
+{% load humanize %}
+
 {% block content %}
 
-<div id="main" class="span8 offset2 text-center">
+<div class="text-center">
 
-	<p>
-		<a href="{{ article.url }}">{{article.title}}</a><br/>
-		<span id="author">by <strong>{{article.author}}</strong></span>
+	<div id="result">
 
-	<br/>
+		<p class="article">
+			<a href="{{ article.url }}" id="article-link">{{article.title}}</a><br/>
+			<span id="author">by <strong>{{article.author}}</strong></span>
 
-	has an Ego Rating of</p>
+		</p>
 
-	<p class="score">{{ article.get_score }} </p>
+		<p class="has-rating">
+			has a Comment Is Mee score of:
+		</p>
 
-	<p>Self-references per 1,000 words</p>
+		<p class="score">
+			<abbr title="The number of uses of the first person per 1,000 words">{{ article.score }}</abbr></p>
 
-	<p>This breaks down as follows:</p>
+		<p>{{article.get_message}}</p>
 
-	<dl class="dl-horizontal">
-		{% for word, count in article.get_word_counts.items %}
-			<dt class="text-right">{{word}}</dt>
-			<dd class="text-left">{{count}}</dd>
-			<br/>
-		{% endfor %}
-	</dl>
+	</div>
 
-	<p>That's a total of {{ article.get_total }} in <strong>{{ article.word_count }}</strong> words.</p>
+	<div id="share-button">
 
+		Tweet this result:
+
+		<a href="https://twitter.com/share" class="twitter-share-button" data-text='{{article}} scored {{article.score}} on #CommentIsMee' data-size="large" data-count="none" data-related="qwghlm">Tweet</a>
+	</div>
+
+	<div id="breakdown">
+
+		<p>This breaks down as follows:</p>
+
+		<div id="breakdown-inner">
+			{% for word, count in article.get_word_counts.items %}
+				<div class="text-right">{{word}}:</div>
+				<div class="text-left">{{count}}</div>
+			{% endfor %}
+			<div class="clearfix"></div>
+		</div>
+
+	</div>
+
+	<div id="totals">
+		<p>
+			That's a total of {{ article.get_total }} self-references in {{ article.word_count | intcomma }} words &ndash; i.e. {{ article.score }} per 1,000 words</p>
+		</p>
+	</div>
+
+	<div id="form-wrapper">
+
+		<p>Want to try another article? Have a go below:</p>
+
+		{% include "articles/form.html" %}
+
+	</div>
 </div>
 
 {% endblock %}

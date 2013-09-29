@@ -1,43 +1,58 @@
-# Create your views here.
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.urlresolvers import reverse
 
 from articles.models import CIFArticle, CIFArticleForm
 
 def index(request):
-    form = CIFArticleForm()
-    return render(request, 'articles/index.html', { 'form' : form })
-
-def add(request):
-
-    if not request.POST:
-        return redirect("/")
-
+    """
+    Handle requests to the homepage
+    """
     article = None
+    # If a user has submitted a URL...
+    if request.POST:
 
-    try:
-        article = CIFArticle.objects.get(url=request.POST.get('url'))
+        # See if URL already exists in the system
+        try:
+            article = CIFArticle.objects.get(url=request.POST.get('url'))
 
-    except CIFArticle.DoesNotExist:
-        form = CIFArticleForm(request.POST)
+        # If not, add an article in, and fetch the details from it
+        except CIFArticle.DoesNotExist:
+            form = CIFArticleForm(request.POST)
+            if (form.is_valid()):            
+                try:
+                    article = form.save(commit=False)
+                    article.measure_ego()
+                    article.save()
+                # If something goes wrong, report the error back to the user
+                except ValueError, e:
+                    article = None
+                    form._errors["url"] = form.error_class([str(e)])
 
-        # FIXME - incorporate updating & validation into Django's own validation?
-        if (form.is_valid()):            
-            try:
-                article = form.save(commit=False)
-                article.measure_ego()
-                article.save()
-            except ValueError:
-                article = None
-
-    if article:
-        return redirect("/" + str(article.id))
+    # Else if no URL submitted, just set up a blank form
     else:
-        return render(request, 'articles/index.html', { 'form' : form })
+        form = CIFArticleForm()
 
+    # If an article is found or created due to a user submission, redirect there
+    if article:
+        return redirect(reverse("articles:detail", args=(article.id,)))
+
+    # Else show the homepage & rendered form
+    else:
+        top_articles = CIFArticle.objects.filter(is_cif=1).order_by('-score')[:10]
+        return render(request, 'articles/index.html', {
+            'form' : form ,
+            'top_articles' : top_articles
+        })
 
 def detail(request, article_id):
+    """
+    Handle detail view for an article
+    """
+    # Quite simple, set up article and form
+    form = CIFArticleForm()
     article = get_object_or_404(CIFArticle, id=article_id)
-    return render(request, 'articles/detail.html', {'article' : article})
-
+    return render(request, 'articles/detail.html', {
+        'article' : article,
+        'form' : form })
