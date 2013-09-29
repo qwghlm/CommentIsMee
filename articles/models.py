@@ -56,11 +56,14 @@ class CIFArticle(models.Model):
     score = models.FloatField(default=0.0)
     word_count = models.IntegerField(default=0)
 
+    def __unicode__(self):
+        return u'"%s" by %s' % (self.title, self.author)
+
     def __repr__(self):
-        return '"%s" by %s' % (self.title, self.author)
+        return self.__unicode__().encode('utf8')
 
     def __str__(self):
-        return '"%s" by %s' % (self.title, self.author)
+        return self.__repr__()
 
     def download_page(self):
         """
