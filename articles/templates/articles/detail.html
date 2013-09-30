@@ -37,7 +37,7 @@
 
 	<div id="breakdown">
 
-		<p>This breaks down as follows:</p>
+		<p>How is this score worked out? The breakdown was:</p>
 
 		<div id="breakdown-inner">
 			{% for word, count in article.get_word_counts.items %}
@@ -53,6 +53,11 @@
 		<p>
 			That's a total of {{ article.get_total }} self-references in {{ article.word_count | intcomma }} words &ndash; i.e. {{ article.score }} per 1,000 words</p>
 		</p>
+
+		<p>
+			As a rule of thumb, a score less than 10 is good going, anything over 20 not so good, more than 40 is pretty bad.
+		</p>
+
 	</div>
 
 	<div id="form-wrapper">

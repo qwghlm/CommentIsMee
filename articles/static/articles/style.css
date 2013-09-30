@@ -78,6 +78,11 @@ ul.errorlist li {
     display: block;
 }
 
+form .alert {
+    width: 540px;
+    margin: 10px auto;
+}
+
 /* Details page */
 
 #article-link   {
@@ -158,6 +163,8 @@ footer {
 footer a {
     padding: 0 1em;
 }
+
+
 
 @media (min-width: 768px) {
 
