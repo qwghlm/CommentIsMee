@@ -33,7 +33,18 @@
     <meta property="og:image" content="http://{{request.get_host}}{% static 'articles/commentismee.png' %}" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Comment Is Mee"/>
-    <meta property="og:author" content="Chris Applegate" />
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@qwghlm">
+    <meta name="twitter:title" content="Comment Is Mee">
+    {% if article %}
+    <meta name="twitter:description" content="{{article}} scored {{article.score}} on Comment Is Mee">
+    {% else %}
+    <meta name="twitter:description" content="Tracking the most self-centred articles on Comment Is Free">
+    {% endif %} 
+    <meta name="twitter:creator" content="@qwghlm">
+    <meta name="twitter:image:src" content="http://{{request.get_host}}{% static 'articles/commentismee.png' %}">
+    <meta name="twitter:domain" content="commentismee.qwghlm.co.uk">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
