@@ -184,7 +184,7 @@ class CIFArticle(models.Model):
             10 : "low",
             20 : "medium",
             40 : "high",
-            80 : "maximum",
+            1000 : "maximum",
         }
         message_key = min([key for key in messages.keys() if self.score <= key])
         return messages[message_key]
