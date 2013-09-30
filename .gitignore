@@ -11,5 +11,9 @@
 .coverage
 htmlcov/*
 
+# Settings files for individual environments
 settings_dev.py
 settings_prod.py
+
+# PID files
+*.pid
