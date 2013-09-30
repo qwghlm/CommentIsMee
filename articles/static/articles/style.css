@@ -1,4 +1,4 @@
-body {
+body, a.black {
     color: #333;
 }
 #header, h1, h2, #article-link {
