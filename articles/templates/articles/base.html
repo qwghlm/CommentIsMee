@@ -84,11 +84,18 @@
     <div class="row">
 
         <footer class="span12 text-center">
-                <a href="{% url 'articles:Home' %}">Home</a> &bull;
-                <a href="http://www.qwghlm.co.uk">About</a> &bull;
-                <a href="http://github.com/qwghlm/CommentIsMee">Github</a>
 
-                <br/>&copy; 2013 Chris Applegate. Some Rights Reserved.
+                <div class="footer-nav">
+
+                    <a href="{% url 'articles:Home' %}">Home</a> &bull;
+                    <a href="http://www.qwghlm.co.uk">About</a> &bull;
+                    <a href="http://github.com/qwghlm/CommentIsMee">Github</a>
+
+                </div>
+
+                &copy; 2013 <a href="http://www.qwghlm.co.uk">Chris Applegate</a>.
+                <a href="https://twitter.com/intent/tweet?screen_name=qwghlm&amp;hashtags=CommentIsMee&amp;related=qwghlm" data-related="qwghlm">Have Feedback</a>?
+                Some Rights Reserved.
 
 
         </footer>
@@ -117,7 +124,7 @@
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-ga('create', 'UA-6592761-3'); // FIXME Parameterize
+ga('create', 'UA-6592761-3');
 ga('send', 'pageview');
 
 !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');

@@ -44,7 +44,7 @@ h2 {
     padding-top: 20px;
 }
 
-#share-button, .index #form-wrapper {
+#share-button, .index #homepage-share {
     border-bottom: 1px solid #eee;
     padding-bottom: 20px;
     margin-bottom: 20px;
@@ -140,6 +140,10 @@ abbr {
     margin-top: 10px;
 }
 
+#homepage-share {
+    margin-top: 40px;
+}
+
 #share-button {
     min-height: 28px;
     font-weight: bold;
@@ -160,7 +164,7 @@ footer {
     font-size: 90%;
 }
 
-footer a {
+.footer-nav a {
     padding: 0 1em;
 }
 
