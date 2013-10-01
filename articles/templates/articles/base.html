@@ -14,6 +14,11 @@
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="icon" href="http://{{request.get_host}}{% static 'articles/commentismee.png' %}" type="image/png">
+    <link rel="shortcut icon" href="http://{{request.get_host}}{% static 'articles/commentismee.png' %}" type="image/png">
+
     <meta name="author" content="Chris Applegate">
     {% if article %}
     <meta name="description" content="{{article}} scored {{article.score}} on Comment Is Mee">
