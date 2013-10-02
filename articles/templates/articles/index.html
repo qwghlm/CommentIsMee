@@ -40,7 +40,32 @@
 
 		<tr>
 			<td><a href="{% url 'articles:detail' article.id %}">{{article.title}}</a> by {{article.author}}</td>
-			<td>{{article.score | floatformat:2}}</td>
+			<td><span class="severity-{{article.severity}}">{{article.score | floatformat:2}}</span></td>
+		</tr>
+
+	{% endfor %}
+
+	</table>
+</div>
+
+<div id="top-articles" class="span8 offset2">
+
+	<h2>Latest Articles</h2>
+
+	<p>The latest articles submitted to <em>Comment Is Mee</em>:</p>
+
+	<table class="table table-striped table-bordered">
+
+		<tr>
+			<th>Article</th>
+			<th>Score</th>
+		</tr>
+
+	{% for article in latest_articles %}
+
+		<tr>
+			<td><a href="{% url 'articles:detail' article.id %}">{{article.title}}</a> by {{article.author}}</td>
+			<td><span class="severity-{{article.severity}}">{{article.score | floatformat:2}}</span></td>
 		</tr>
 
 	{% endfor %}

@@ -40,9 +40,11 @@ def index(request):
     # Else show the homepage & rendered form
     else:
         top_articles = CIFArticle.objects.filter(is_cif=1).order_by('-score')[:10]
+        latest_articles = CIFArticle.objects.filter(is_cif=1).order_by('-id')[:5]
         return render(request, 'articles/index.html', {
             'form' : form ,
-            'top_articles' : top_articles
+            'top_articles' : top_articles,
+            'latest_articles' : latest_articles
         }, context_instance=RequestContext(request))
 
 def detail(request, article_id):
