@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{% load url from future %}
 {% load staticfiles %}
 <html lang="en">
 <head>
@@ -24,14 +23,14 @@
     <meta name="description" content="{{article}} scored {{article.score}} on Comment Is Mee">
     {% else %}
     <meta name="description" content="Tracking the most self-centred pieces in Comment Is Free">
-    {% endif %}    
+    {% endif %}
 
     <meta property="og:title" content="Comment Is Mee" />
     {% if article %}
     <meta property="og:description" content="{{article}} scored {{article.score}} on Comment Is Mee">
     {% else %}
     <meta property="og:description" content="Tracking the most self-centred articles on Comment Is Free">
-    {% endif %} 
+    {% endif %}
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="{{request.build_absolute_uri}}" />
@@ -46,7 +45,7 @@
     <meta name="twitter:description" content="{{article}} scored {{article.score}} on Comment Is Mee">
     {% else %}
     <meta name="twitter:description" content="Tracking the most self-centred articles on Comment Is Free">
-    {% endif %} 
+    {% endif %}
     <meta name="twitter:creator" content="@qwghlm">
     <meta name="twitter:image:src" content="http://{{request.get_host}}{% static 'articles/commentismee.png' %}">
     <meta name="twitter:domain" content="commentismee.qwghlm.co.uk">
