@@ -1,7 +1,6 @@
 from base import *
 
 DEBUG = False # Alternatively, True
-TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     # Admins go here
