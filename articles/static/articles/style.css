@@ -1,4 +1,4 @@
-body {
+body, a.black {
     color: #333;
 }
 #header, h1, h2, #article-link {
@@ -7,7 +7,6 @@ body {
 a {
     color: #005689;
 }
-
 
 #header {
     color: #2E6B9A;
@@ -41,17 +40,23 @@ h2 {
 }
 
 #content {
-    border-top: 1px solid #ccc;
+    border-top: 1px solid #eee;
     padding-top: 20px;
 }
 
-#share-button, .index #form-wrapper {
-    border-bottom: 1px solid #ccc;
+#share-button, .index #homepage-share {
+    border-bottom: 1px solid #eee;
     padding-bottom: 20px;
     margin-bottom: 20px;
 }
 
 /* Form */
+
+.index #form-wrapper p {
+    font-size: 130%;
+    line-height: 130%;
+    margin-bottom: 40px;
+}
 
 form {
     margin: 20px auto;
@@ -73,6 +78,11 @@ ul.errorlist li {
     display: block;
 }
 
+form .alert {
+    width: 540px;
+    margin: 10px auto;
+}
+
 /* Details page */
 
 #article-link   {
@@ -92,6 +102,23 @@ ul.errorlist li {
 abbr {
     border-bottom: none !important;
 }
+.severity-none {
+    color: #228b22;
+}
+.severity-low {
+    color: #93A12F;
+}
+.severity-medium {
+    color: #D4AF37;
+}
+.severity-high {
+    color: #B45C20;
+}
+.severity-maximum {
+    color: #940909;
+}
+
+
 
 #breakdown-inner .text-right, #breakdown-inner .text-left {
     width: 48%;
@@ -113,6 +140,10 @@ abbr {
     margin-top: 10px;
 }
 
+#homepage-share {
+    margin-top: 40px;
+}
+
 #share-button {
     min-height: 28px;
     font-weight: bold;
@@ -125,6 +156,19 @@ p {
     margin-top: 10px;
     margin-bottom: 10px;
 }
+
+footer {
+    margin: 20px 0;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+    font-size: 90%;
+}
+
+.footer-nav a {
+    padding: 0 1em;
+}
+
+
 
 @media (min-width: 768px) {
 

@@ -13,6 +13,6 @@ elif ENVIRONMENT == "staging":
     from .staging import *
 else:
     try:
-        from .local import *
+        from .dev import *
     except ImportError:
         pass

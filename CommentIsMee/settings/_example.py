@@ -1,4 +1,4 @@
-from settings import *
+from base import *
 
 DEBUG = False # Alternatively, True
 TEMPLATE_DEBUG = DEBUG
@@ -10,12 +10,12 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': '',                      
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '',
         'USER': '',
         'PASSWORD': '',
-        'HOST': '',                      
-        'PORT': '',                      
+        'HOST': '',
+        'PORT': '',
     }
 }
 

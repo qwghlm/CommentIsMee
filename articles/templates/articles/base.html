@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{% load url from future %}
 {% load staticfiles %}
 <html lang="en">
 <head>
@@ -14,26 +13,42 @@
     <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <link rel="icon" href="http://{{request.get_host}}{% static 'articles/commentismee.png' %}" type="image/png">
+    <link rel="shortcut icon" href="http://{{request.get_host}}{% static 'articles/commentismee.png' %}" type="image/png">
+
     <meta name="author" content="Chris Applegate">
     {% if article %}
     <meta name="description" content="{{article}} scored {{article.score}} on Comment Is Mee">
     {% else %}
     <meta name="description" content="Tracking the most self-centred pieces in Comment Is Free">
-    {% endif %}    
+    {% endif %}
 
     <meta property="og:title" content="Comment Is Mee" />
     {% if article %}
     <meta property="og:description" content="{{article}} scored {{article.score}} on Comment Is Mee">
     {% else %}
     <meta property="og:description" content="Tracking the most self-centred articles on Comment Is Free">
-    {% endif %} 
+    {% endif %}
 
     <meta property="og:type" content="website" />
-    <!-- TODO <meta property="og:url" content="" /> -->
-    <!-- TODO <meta property="og:image" content=" -->
+    <meta property="og:url" content="{{request.build_absolute_uri}}" />
+    <meta property="og:image" content="http://{{request.get_host}}{% static 'articles/commentismee.png' %}" />
     <meta property="og:locale" content="en_GB" />
     <meta property="og:site_name" content="Comment Is Mee"/>
-    <meta property="og:author" content="Chris Applegate" />
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@chrisapplegate">
+    <meta name="twitter:title" content="Comment Is Mee">
+    {% if article %}
+    <meta name="twitter:description" content="{{article}} scored {{article.score}} on Comment Is Mee">
+    {% else %}
+    <meta name="twitter:description" content="Tracking the most self-centred articles on Comment Is Free">
+    {% endif %}
+    <meta name="twitter:creator" content="@chrisapplegate">
+    <meta name="twitter:image:src" content="http://{{request.get_host}}{% static 'articles/commentismee.png' %}">
+    <meta name="twitter:domain" content="commentismee.qwghlm.co.uk">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -46,7 +61,7 @@
 
     <div class="row" id="header">
 
-        <h1 class="span8 offset2 text-center">
+        <h1 class="span12 text-center">
             <a href="{% url 'articles:Home' %}">
                 <span class="header-1">comment</span>
                 <span class="header-2">is</span>
@@ -58,7 +73,7 @@
 
     <div class="row">
 
-        <div id="content" class="span8 offset2">
+        <div id="content" class="span12">
 
         {% block content %}
 
@@ -70,40 +85,50 @@
 
     </div>
 
-    <div class="row-fluid">
+    <div class="row">
 
-        <footer class="span8 offset2 well">
-            <div class="pull-left">
-                <a href="{% url 'articles:Home' %}" class="pull-left">Home</a>
-            </div>
+        <footer class="span12 text-center">
 
-            <div class="pull-right text-right">
-                <a href="http://github.com/qwghlm/CommentIsMee">Github</a> |
-                <a href="http://www.qwghlm.co.uk">About</a> <!-- TODO Change URL! -->
-            </div>
+                <div class="footer-nav">
 
-            <div class="clearfix"></div>
+                    <a href="{% url 'articles:Home' %}">Home</a> &bull;
+                    <a href="http://www.qwghlm.co.uk">About</a> &bull;
+                    <a href="http://github.com/qwghlm/CommentIsMee">Github</a>
+
+                </div>
+
+                &copy; 2013 <a href="http://www.qwghlm.co.uk">Chris Applegate</a>.
+                <a href="https://twitter.com/intent/tweet?screen_name=chrisapplegate&amp;hashtags=CommentIsMee&amp;related=chrisapplegate" data-related="chrisapplegate">Have Feedback</a>?
+                Some Rights Reserved.
+
+
         </footer>
 
     </div>
 
 </div> <!-- container -->
 
+<div id="fb-root"></div>
+
 </body>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
 <script type="text/javascript" src="{% static 'articles/script.js' %}"></script>
 
 <script>
-{% if article %}
-var articleID = "{{article.id}}";
-{% endif %}
+(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/all.js#xfbml=1&appId=149877951886680";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
 
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-ga('create', 'UA-6592761-3'); // FIXME Parameterize
+ga('create', 'UA-6592761-3');
 ga('send', 'pageview');
 
 !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
