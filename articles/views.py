@@ -57,5 +57,4 @@ def detail(request, article_id):
     article = get_object_or_404(CIFArticle, id=article_id)
     return render(request, 'articles/detail.html', {
         'article' : article,
-        'form' : form },
-        context_instance=RequestContext(request))
+        'form' : form })

@@ -85,13 +85,17 @@ class CIFArticle(models.Model):
         self.is_cif = self.url.find('commentisfree') > -1 or section.lower() == "comment is free"
 
         # Desktop and mobile search for the relevant div
-        div = soup.find("div", id="article-body-blocks") or soup.find("div", class_="article-body")
+        div = soup.find("div", class_="content__article-body")
         if not div:
             raise ValueError("Sorry, I could not find an article in that page")
 
         # Get rid of blockquotes so the count is fair(er)
         for quote in div.find_all("blockquote"):
             quote.decompose()
+        for aside in div.find_all("aside"):
+            aside.decompose()
+        for figure in div.find_all("figure"):
+            figure.decompose()
 
         # Cleanup whitespace, convert all to spaces and then return
         text = div.get_text(" ", strip=True) or ""

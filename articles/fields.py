@@ -1,5 +1,5 @@
 from django.db import models
-from urlparse import urlparse
+from urlparse import urlparse, urlunparse
 
 class CIFURLField(models.URLField):
 
