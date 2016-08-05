@@ -44,10 +44,19 @@ h2 {
     padding-top: 20px;
 }
 
-#share-button, .index #homepage-share {
+#share-button,
+.index #homepage-share {
     border-bottom: 1px solid #eee;
     padding-bottom: 20px;
     margin-bottom: 20px;
+    line-height: 0;
+    font-size: 0;
+    min-height: 20px;
+}
+
+#share-button iframe,
+.index #homepage-share iframe {
+    margin-right: 10px;
 }
 
 /* Form */

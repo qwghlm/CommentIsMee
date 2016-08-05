@@ -76,7 +76,7 @@ class CIFArticle(models.Model):
         author_tag = soup.find(rel="author")
         self.author = author_tag and author_tag.get_text() or "Unknown Author"
 
-        title_tag = soup.find("title")
+        title_tag = soup.find("h1", {'class' : 'content__headline'}) or soup.find("title")
         self.title = title_tag and title_tag.get_text().split("|")[0].strip() or "Unknown Title"
 
         # Check to see if CIF, either from URL or if the section is labelled as such in the metadata
