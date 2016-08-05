@@ -14,7 +14,7 @@ def index(request):
     if request.POST:
 
         form = CIFArticleForm(request.POST)
-        if (form.is_valid()):            
+        if (form.is_valid()):
             try:
                 article = form.save(commit=False)
                 existing_articles = CIFArticle.objects.filter(url=article.url).count()
@@ -45,7 +45,7 @@ def index(request):
             'form' : form ,
             'top_articles' : top_articles,
             'latest_articles' : latest_articles
-        }, context_instance=RequestContext(request))
+        })
 
 def detail(request, article_id):
     """

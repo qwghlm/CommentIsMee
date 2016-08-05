@@ -17,3 +17,6 @@ settings_prod.py
 
 # PID files
 *.pid
+
+
+.venv
