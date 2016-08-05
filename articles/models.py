@@ -1,3 +1,8 @@
+import json
+import re
+from urlparse import urlparse, parse_qsl, urlunparse
+from urllib import urlencode
+
 # http://www.crummy.com/software/BeautifulSoup/
 # Also needs https://github.com/html5lib
 from bs4 import BeautifulSoup
@@ -8,41 +13,9 @@ from requests.exceptions import RequestException
 
 # https://www.djangoproject.com/
 from django.db import models
-from django.forms import ModelForm, TextInput, URLField
 from django.core.exceptions import ValidationError
 
-import json
-import re
-from pprint import pprint
-from urlparse import urlparse, parse_qsl, urlunparse
-from urllib import urlencode
-
-
-class CIFURLField(models.URLField):
-
-    def to_python(self, value):
-        """
-        Get rid of query and anchor when saving URL canonically
-        """
-        parsed_url = urlparse(value)
-        url = urlunparse((parsed_url.scheme, parsed_url.netloc, parsed_url.path, "", "", ""))
-        return url
-
-    def validate(self, value, form):
-        """
-        Validate and make sure this is a valid URL
-        """
-        super(CIFURLField, self).validate(value, form)
-        parsed_url = urlparse(value)
-
-        valid_domains = ("theguardian.com", "guardian.co.uk", "gu.com")
-        for domain in valid_domains:
-            if parsed_url.netloc.find(domain) > -1:
-                return
-
-        raise ValidationError(
-            "Sorry, %s does not appear to be a Guardian URL" % value,
-            code="invalid")
+from .fields import CIFURLField
 
 class CIFArticle(models.Model):
     """
@@ -131,7 +104,7 @@ class CIFArticle(models.Model):
         """
         text = self.extract_article()
 
-        # For each keyword, search through and get the score 
+        # For each keyword, search through and get the score
         keywords = ("I", "me", "my", "myself", "mine")
         scores = {}
         for keyword in keywords:
@@ -188,17 +161,3 @@ class CIFArticle(models.Model):
         }
         message_key = min([key for key in messages.keys() if self.score <= key])
         return messages[message_key]
-
-class CIFArticleForm(ModelForm):
-    """
-    Simplified URL-only form for user to search for
-    """
-    attrs = {
-        'class' : 'span7',
-        'placeholder' : 'Type or paste a CIF link here'
-    }
-    url = URLField(widget=TextInput(attrs=attrs))
-    class Meta:
-        model = CIFArticle
-        fields = ['url']
-

@@ -3,12 +3,7 @@ import os
 import sys
 
 if __name__ == "__main__":
-    DEBUG = (sys.argv[1] == 'runserver')
-    if DEBUG:
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "CommentIsMee.settings_dev")
-    else:
-        os.environ.setdefault("DJANGO_SETTINGS_MODULE", "CommentIsMee.settings_prod")
-
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "CommentIsMee.settings")
     from django.core.management import execute_from_command_line
 
     execute_from_command_line(sys.argv)

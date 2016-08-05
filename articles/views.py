@@ -3,7 +3,8 @@ from django.template import RequestContext, loader
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.urlresolvers import reverse
 
-from articles.models import CIFArticle, CIFArticleForm
+from articles.models import CIFArticle
+from .forms import CIFArticleForm
 
 def index(request):
     """

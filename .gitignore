@@ -12,11 +12,14 @@
 htmlcov/*
 
 # Settings files for individual environments
-settings_dev.py
-settings_prod.py
+*/settings/dev.py
+*/settings/prod.py
 
 # PID files
 *.pid
 
-
+# Environment files
 .venv
+
+# Migrations
+*/migrations/*
