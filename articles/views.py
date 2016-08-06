@@ -45,12 +45,12 @@ def index(request):
         top_articles = cache.get('cim:top_articles')
         if top_articles is None:
             top_articles = CIFArticle.objects.filter(is_cif=1).order_by('-score')[:10]
-            cache.set('cim:top_articles', top_articles)
+            cache.set('cim:top_articles', top_articles, 60)
 
         latest_articles = cache.get('cim:latest_articles')
         if latest_articles is None:
             latest_articles = CIFArticle.objects.filter(is_cif=1).order_by('-id')[:5]
-            cache.set('cim:latest_articles', latest_articles)
+            cache.set('cim:latest_articles', latest_articles, 30)
 
         return render(request, 'articles/index.html', {
             'form' : form ,
@@ -68,7 +68,7 @@ def detail(request, article_id):
     article = cache.get(article_key)
     if article is None:
         article = get_object_or_404(CIFArticle, id=article_id)
-        cache.set(article_key, article)
+        cache.set(article_key, article, 300)
 
     return render(request, 'articles/detail.html', {
         'article' : article,
