@@ -13,7 +13,10 @@ htmlcov/*
 
 # Settings files for individual environments
 */settings/dev.py
-*/settings/prod.py
+*/settings/staging.py
+*/settings/live.py
+
+uwsgi.ini
 
 # PID files
 *.pid
